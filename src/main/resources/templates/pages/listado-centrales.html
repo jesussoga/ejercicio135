@@ -43,13 +43,13 @@
                     <tbody>
                         <tr th:each="central : ${listaCentrales}">
                             <td th:text="${central.id}"></td>
-                            <td th:text="${central.activa}? 'SI' : 'NO'"></td>
-                            <td th:text="${central.idTipo}"></td>
+                            <td th:text="${central.activa}? '✔' : '❌'"></td>
+                            <td th:text="${central.tipo.tipo}"></td>
                             <td th:text="${central.potencia}"></td>
-                            <td th:text="${central.idProvincia}"></td>
-                            <td th:text="${central.inicio.year}"></td>
+                            <td th:text="${central.provincia.nombre}"></td>
+                            <td th:text="${#temporals.format(central.inicio, 'dd-MM-yyyy')}"></td>
                             <td><a target="_blank" th:href="'https://www.google.com/maps/place/' + ${central.latitud} + ',' + ${central.longitud}"><i class="bi bi-globe-europe-africa fs-2"></i></a></td>
-                            <td><img th:src="${central.imagen}" alt="" width="90rem"></td>
+                            <td><img th:src="${central.imagen}" th:alt="'Imagen de la central nuclear ' + ${central.descripcion}" src="" alt="" width="90rem"></td>
                         </tr>
                     </tbody>
                 </table>

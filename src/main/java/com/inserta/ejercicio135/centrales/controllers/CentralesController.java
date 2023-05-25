@@ -2,16 +2,19 @@ package com.inserta.ejercicio135.centrales.controllers;
 
 import com.inserta.ejercicio135.centrales.models.Central;
 import com.inserta.ejercicio135.centrales.services.CentralService;
+import com.inserta.ejercicio135.tipos.Tipo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/listado")
 public class CentralesController {
     private final CentralService centralService;
 
@@ -19,43 +22,41 @@ public class CentralesController {
         this.centralService = centralService;
     }
 
-    @GetMapping("/listado/centrales")
+    @GetMapping("/centrales")
     public String listaCentrales(){
         return "pages/listado-centrales";
     }
 
-    @GetMapping("/listado/centrales/")
+    @GetMapping("/centrales/")
     public String todas(Model model){
-        List<Central> centrales = centralService.todasCentrales();
-        model.addAttribute("listaCentrales", centrales);
+        model.addAttribute("listaCentrales", centralService.obtenerTodas());
         return "pages/listado-centrales";
     }
 
-    @GetMapping("/listado/centrales/activas")
+    @GetMapping("/centrales/activas")
     public String activas(Model model){
-        List<Central> centrals = centralService.centralesActiva();
-        model.addAttribute("listaCentrales", centrals);
+        model.addAttribute("listaCentrales", centralService.centralesActiva());
         return "pages/listado-centrales";
     }
 
-    @GetMapping("/listado/centrales/idTipo/{id}")
+    @GetMapping("/centrales/idTipo/{id}")
     public String idTipo(Model model, @PathVariable Integer id){
-        List<Central> centrals = centralService.centralTipo1(id);
-        model.addAttribute("listaCentrales", centrals);
+        Tipo tipo = new Tipo();
+        tipo.setId(id);
+        model.addAttribute("listaCentrales", centralService.centralTipo(tipo));
         return "pages/listado-centrales";
     }
 
-    @GetMapping("/listado/centrales/fecha/{year}")
+    @GetMapping("/centrales/fecha/{year}")
     public String antesDe1975(Model model, @PathVariable Integer year){
         LocalDateTime fecha = LocalDateTime.of(year,1,1,0, 0);
-        List<Central> centrals = centralService.inicioCentral(fecha);
-        model.addAttribute("listaCentrales", centrals);
+        model.addAttribute("listaCentrales", centralService.inicioCentral(fecha));
         return "pages/listado-centrales";
     }
 
     @ResponseBody
-    @GetMapping("/listado/centrales/json")
+    @GetMapping("/centrales/json")
     public List<Central> todas(){
-        return centralService.todasCentrales();
+        return centralService.obtenerTodas();
     }
 }

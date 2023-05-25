@@ -41,11 +41,11 @@
                     <tbody>
                         <tr th:each="incidencia : ${lista}">
                             <td th:text="${incidencia.id}"></td>
-                            <td th:text="${incidencia.idUsuario}"></td>
-                            <td th:text="${incidencia.idCentral}"></td>
+                            <td th:text="${incidencia.usuario.nombre}"></td>
+                            <td th:text="${incidencia.central.descripcion}"></td>
                             <td th:text="${incidencia.texto}"></td>
-                            <td th:text="${incidencia.fecha.year}"></td>
-                            <td th:text="${incidencia.resuelta}? 'SI' : 'NO'"></td>
+                            <td th:text="${#temporals.format(incidencia.fecha, 'dd-MM-yyyy')}"></td>
+                            <td th:text="${incidencia.resuelta}? '✔' : '❌'"></td>
                         </tr>
                     </tbody>
                 </table>
